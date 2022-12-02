@@ -32,6 +32,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.dataGridView1dadas = new System.Windows.Forms.DataGridView();
             this.BtnStartMatch = new System.Windows.Forms.Button();
             this.TmrMatchTimer = new System.Windows.Forms.Timer(this.components);
@@ -320,11 +321,12 @@
             this.Controls.Add(this.dataGridView1dadas);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(574, 479);
             this.MinimumSize = new System.Drawing.Size(574, 479);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "SOT Tracker";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1dadas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudStreak)).EndInit();
             this.ResumeLayout(false);

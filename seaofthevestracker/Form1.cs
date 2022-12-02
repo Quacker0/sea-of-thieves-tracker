@@ -16,8 +16,8 @@ namespace seaofthevestracker
 {
     public partial class Form1 : Form
     {
-        private static string dbname = "testdb";
-        //private static string dbname = "db";
+        //private static string dbname = "testdb";
+        private static string dbname = "db";
         
         private SQLiteConnection dbcon = new SQLiteConnection("Data Source=" + dbname + ".sqlite;Version=3;");
         

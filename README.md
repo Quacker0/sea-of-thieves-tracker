@@ -10,4 +10,4 @@ https://discord.gg/rA7MyXSgjR
 How to update
 extract zip file into application directory
 or
-new directory and copy db.sqlite into new directory
+extract into new directory and copy db.sqlite into new directory

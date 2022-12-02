@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -17,12 +16,10 @@ namespace seaofthevestracker
 {
     public partial class Form1 : Form
     {
+        private static string dbname = "testdb";
+        //private static string dbname = "db";
         
-        
-        private string DBCN;
-        private SqlConnection con;
-
-        private SQLiteConnection dbcon = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
+        private SQLiteConnection dbcon = new SQLiteConnection("Data Source=" + dbname + ".sqlite;Version=3;");
         
         
         
@@ -37,7 +34,30 @@ namespace seaofthevestracker
         
         private void createdb()
         {
-            SQLiteConnection.CreateFile("db");
+            dbcon.Open();
+            SQLiteConnection.CreateFile(dbname);
+            var tb1 = "Create  Table Matches (" +
+                       "ID integer PRIMARY KEY," +
+                       "startTime DateTime NOT NULL," +
+                       "endTime DateTime NOT NULL," +
+                       "SteakNum int NOT NULL," +
+                       "Faction VARCHAR(1) NOT NULL, " +
+                       "ShipType VARCHAR(1) NOT NULL , " +
+                       "Outcome BIT NOT NULL," +
+                       "Session Datetime NOT NULL);";
+            
+            SQLiteCommand cmd = new SQLiteCommand(tb1, dbcon);
+            cmd.ExecuteNonQuery();
+            var v1 = "CREATE VIEW defaultveiw AS Select ID as 'Match number'" +
+                     ",time(strftime('%s',endTime) - " +
+                     "strftime('%s',startTime),'unixepoch') as 'Duration' ,SteakNum as 'Streak' , " +
+                     "CASE WHEN Outcome = 0 THEN 'loss' ELSE 'Win' END as Outcome " +
+                     "FROM (Select startTime ,endTime ,SteakNum,Outcome ," +
+                     "ID FROM Matches order by ID desc LIMIT 5) as x;";
+
+            cmd.CommandText = v1;
+            cmd.ExecuteNonQuery();
+            dbcon.Close();
         }
         
         public Form1()
@@ -46,10 +66,8 @@ namespace seaofthevestracker
             Session = DateTime.Now;
             shiptype = "S";
             faction = "A";
-            DBCN = "server = 10.0.0.2; database = SOT; UID = sa; password = P@$$W0rd2021!.";
-            con = new SqlConnection(DBCN);
-            
-            if (!File.Exists("db"))
+            dbcon.Close();
+            if (!File.Exists(dbname + ".sqlite"))
             {
                 createdb();
             }
@@ -59,11 +77,21 @@ namespace seaofthevestracker
         
         private void RefreshTable()
         {
-            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM defaultveiw", DBCN);
+            dbcon.Open();
+            
+            SQLiteDataAdapter da = 
+                new SQLiteDataAdapter(
+                    "Select ID as 'Match number',time(strftime('%s',endTime) - strftime('%s',startTime)" +
+                    ",'unixepoch') as 'Duration' ,SteakNum as 'Streak' ,CASE WHEN Outcome = 0 THEN 'loss' ELSE 'Win' " +
+                    "END as Outcome FROM (Select startTime ,endTime ,SteakNum,Outcome " +
+                    ",ID FROM Matches order by ID desc LIMIT 5) as x", dbcon);
+            
+            DataSet ds = new DataSet();
+            
+            da.Fill(ds,"defaultveiw");
+            dataGridView1dadas.DataSource = ds.Tables["defaultveiw"].DefaultView;
                         
-                        DataSet ds = new DataSet();
-                        da.Fill(ds,"defaultveiw");
-                        dataGridView1.DataSource = ds.Tables["defaultveiw"].DefaultView;
+            dbcon.Close();
         }
 
      
@@ -146,9 +174,9 @@ namespace seaofthevestracker
 
         public void addtodb()
         {
-            con.Open();
-            string qur = $"INSERT INTO Matches VALUES (@startdate,@endTime,@Streak,@faction,@shiptype,@outcome,@Session)";
-            SqlCommand cmd = new SqlCommand(qur, con);
+            dbcon.Open();
+            string qur = $"INSERT INTO Matches VALUES (NULL,@startdate,@endTime,@Streak,@faction,@shiptype,@outcome,@Session)";
+            SQLiteCommand cmd = new SQLiteCommand(qur, dbcon);
             cmd.Parameters.AddWithValue("@startdate", startTime);
             cmd.Parameters.AddWithValue("@endTime", endTime);
             cmd.Parameters.AddWithValue("@Streak", Streak);
@@ -157,7 +185,7 @@ namespace seaofthevestracker
             cmd.Parameters.AddWithValue("@outcome", outcome);
             cmd.Parameters.AddWithValue("@Session", Session);
             cmd.ExecuteNonQuery();
-            con.Close();
+            dbcon.Close();
             RefreshTable();
         }
 
@@ -218,6 +246,25 @@ namespace seaofthevestracker
         private void BtnRefreshTable_Click(object sender, EventArgs e)
         {
             RefreshTable();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+        private void BtnMatchDelete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1dadas.CurrentRow == null) return;
+            var id = dataGridView1dadas.CurrentRow.Cells[0].Value;
+            dbcon.Open();
+            string qur = $"DELETE FROM Matches WHERE ID = @id";
+            SQLiteCommand cmd = new SQLiteCommand(qur, dbcon);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+            dbcon.Close();
+            RefreshTable();
+
         }
     }
 }

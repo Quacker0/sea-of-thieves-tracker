@@ -32,7 +32,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView1dadas = new System.Windows.Forms.DataGridView();
             this.BtnStartMatch = new System.Windows.Forms.Button();
             this.TmrMatchTimer = new System.Windows.Forms.Timer(this.components);
             this.LblCurrentTimelbl = new System.Windows.Forms.Label();
@@ -54,15 +54,16 @@
             this.LblSafeTimer = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.BtnRefreshTable = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1dadas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudStreak)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridView1dadas
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1dadas.AllowUserToAddRows = false;
+            this.dataGridView1dadas.AllowUserToDeleteRows = false;
+            this.dataGridView1dadas.AllowUserToOrderColumns = true;
+            this.dataGridView1dadas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -70,8 +71,8 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1dadas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1dadas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -79,14 +80,17 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 288);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(543, 138);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1dadas.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1dadas.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView1dadas.Location = new System.Drawing.Point(12, 288);
+            this.dataGridView1dadas.MultiSelect = false;
+            this.dataGridView1dadas.Name = "dataGridView1dadas";
+            this.dataGridView1dadas.ReadOnly = true;
+            this.dataGridView1dadas.RowHeadersVisible = false;
+            this.dataGridView1dadas.ShowEditingIcon = false;
+            this.dataGridView1dadas.Size = new System.Drawing.Size(543, 138);
+            this.dataGridView1dadas.TabIndex = 0;
+            this.dataGridView1dadas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // BtnStartMatch
             // 
@@ -166,6 +170,7 @@
             this.BtnMatchDelete.TabIndex = 7;
             this.BtnMatchDelete.Text = "Delete";
             this.BtnMatchDelete.UseVisualStyleBackColor = true;
+            this.BtnMatchDelete.Click += new System.EventHandler(this.BtnMatchDelete_Click);
             // 
             // BtnMatchEdit
             // 
@@ -312,7 +317,7 @@
             this.Controls.Add(this.LblCurrentTime);
             this.Controls.Add(this.LblCurrentTimelbl);
             this.Controls.Add(this.BtnStartMatch);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView1dadas);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
@@ -320,7 +325,7 @@
             this.MinimumSize = new System.Drawing.Size(574, 479);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1dadas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudStreak)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -363,7 +368,7 @@
 
         private System.Windows.Forms.Button BtnChangeFaction;
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView1dadas;
 
         #endregion
     }
